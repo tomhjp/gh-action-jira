@@ -1,0 +1,2 @@
+# Ensure crlf.md maintains crlf line endings regardless of git config
+crlf.md text eol=crlf
