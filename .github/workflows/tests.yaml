@@ -1,0 +1,22 @@
+name: Tests
+
+on: [push, workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19.5
+      - id: gotest
+        env:
+          FOO: bar
+          BAR: baz
+        run: go test ./...
+      - run: |
+          echo "Output for FOO_OUT: ${{ steps.gotest.outputs.FOO_OUT }}"
+          if [[ '${{ steps.gotest.outputs.FOO_OUT }}' != 'bartest' ]]; then exit 1; fi
+          echo "Output for bar_out: ${{ steps.gotest.outputs.bar_out }}"
+          if [[ '${{ steps.gotest.outputs.bar_out }}' != 'baztest' ]]; then exit 1; fi
